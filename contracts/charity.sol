@@ -8,8 +8,8 @@ contract charity {
 2. Only accept native token (ie. ETH)
 3. Not yet implement the transaction record feature
 4. Fund distrubuted to beneficiaries equally
+5. Have not implement the credit system
 */
-
 // ----------------------------------- Date Structures ----------------------------------- //
 
     enum ReputationLevel {Micro, Small, Medium, Large, Major}
@@ -168,8 +168,12 @@ contract charity {
     // need to add update transaction history logic
     // deposit ETH to this contract
     function donate(uint _campaignId) public payable isDonor isValidCampaign(_campaignId) {
-        Campaign memory targetCampaign = getCampaign(_campaignId);
-        targetCampaign.raisedAmount += msg.value;
+        for (uint i = 0; i < campaignList.length; i++ ) {
+            if(campaignList[i].campaignId == _campaignId) {
+                campaignList[i].raisedAmount += msg.value;
+            }
+        }
+
     }
 
     // release fund to beneficiaries equally
