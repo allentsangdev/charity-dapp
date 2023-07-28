@@ -1,7 +1,7 @@
  //SPDX-License-Identifier: MIT 
 pragma solidity ^0.8.0;
 
-contract charity {
+contract Charity {
 // ----------------------------------- Notes ----------------------------------- //
  /*
 1. No validation on how to register as a participant to this contract --> explore how to integrate with Arash's indy solution or build the Validtor voting logic
