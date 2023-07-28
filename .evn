@@ -1,0 +1,4 @@
+QUICKNODE_URL="https://proud-quick-arm.avalanche-testnet.discover.quiknode.pro/df7b0bc9f9baa3d8a94d70ea249fada9b432e230/ext/bc/C/rpc/"
+PRIVATE_KEY="5361c396286199b33ef1b6b39a459a49a48ebaa54091cd3c403166631bbf570b"
+VITE_CONTRACT_ADDRESS="0xf950cC53531Df50dC910A58d841499E204c950Df"
+ 
