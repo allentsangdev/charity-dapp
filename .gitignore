@@ -1,3 +1,6 @@
 .env
 package.json
 package-lock.json
+build
+node_modules
+yarn.lock
