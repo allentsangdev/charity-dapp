@@ -106,20 +106,28 @@ contract Charity {
 // ----------------------------------- Functions ----------------------------------- //
 
     // right now, everyone can register as a CharityOrg, how can we validate legit organization???
-    function registerAsCharityOrg(string memory _charityName, string memory _charityDesc) public {
+    function registerAsCharityOrg(string memory _charityName) public returns (CharityOrg[] memory)  {
         charityOrgList.push(
             CharityOrg(
                 {
                     charityAddress: msg.sender,
-                    charityName:_charityName,
-                    charityDesc: _charityDesc,
-                    charityId: charityOrgList.length, // using the length of the charityOrgList as the unique ID
+                    charityName: _charityName,
+                    charityDesc: "charityDesc",
+                    charityId: 0, // using the length of the charityOrgList as the unique ID
                     reputationLevel: "Small"
+
+                    //charityAddress: msg.sender,
+                    //charityName:_charityName,
+                    //charityDesc: _charityDesc,
+                    //charityId: 0, // using the length of the charityOrgList as the unique ID
+                    //reputationLevel: "Small"
                 }));
+    
+        return charityOrgList;
     }
 
     // right now, everyone can register as a Donor, do we need validation logics for donor???
-    function registerAsDonor(string memory _donorName) public {
+    function registerAsDonor(string memory _donorName) public returns (Donor[] memory) {
         donorList.push(
             Donor(
                 {
@@ -129,6 +137,8 @@ contract Charity {
                 }
             )
         );
+
+        return donorList;
             
     }
     
@@ -191,6 +201,20 @@ contract Charity {
         }
 
         targetCampaign.campaignState = CampaignState.Successful;
+    }
+
+    // ----------------------------------- Helper Functions ----------------------------------- //
+
+    function getAllCharityOrg() public view returns (CharityOrg[] memory) {
+        return charityOrgList;
+    }
+
+    function getCharityOrg(uint _charityId) public view returns (CharityOrg memory targetCharityOrg) {
+        for (uint i = 0; i < charityOrgList.length; i++ ) {
+            if(charityOrgList[i].charityId == _charityId) {
+                return charityOrgList[i];
+            }
+        }
     }
 
     // ----------------------------------- Modifiers ----------------------------------- //
