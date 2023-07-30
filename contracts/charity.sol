@@ -106,21 +106,15 @@ contract Charity {
 // ----------------------------------- Functions ----------------------------------- //
 
     // right now, everyone can register as a CharityOrg, how can we validate legit organization???
-    function registerAsCharityOrg(string memory _charityName) public returns (CharityOrg[] memory)  {
+    function registerAsCharityOrg(string memory _charityName, string memory _charityDesc ) public returns (CharityOrg[] memory)  {
         charityOrgList.push(
             CharityOrg(
                 {
                     charityAddress: msg.sender,
                     charityName: _charityName,
-                    charityDesc: "charityDesc",
-                    charityId: 0, // using the length of the charityOrgList as the unique ID
+                    charityDesc: _charityDesc,
+                    charityId: charityOrgList.length, // using the length of the charityOrgList as the unique ID
                     reputationLevel: "Small"
-
-                    //charityAddress: msg.sender,
-                    //charityName:_charityName,
-                    //charityDesc: _charityDesc,
-                    //charityId: 0, // using the length of the charityOrgList as the unique ID
-                    //reputationLevel: "Small"
                 }));
     
         return charityOrgList;

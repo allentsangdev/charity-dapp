@@ -33,7 +33,7 @@ router.get("/", (req,res) => {
 router.post('/register-as-charity-org', async (req,res) => {
     try {
         const { _charityName , _charityDesc } = req.body
-        const txReceipt = await charityContractInstance.registerAsCharityOrg(_charityName)
+        const txReceipt = await charityContractInstance.registerAsCharityOrg(_charityName, _charityDesc)
         res.status(200).json(txReceipt)
 
     } 
