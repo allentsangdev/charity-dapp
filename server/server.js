@@ -47,17 +47,12 @@ router.post('/register-as-donor', async (req,res) => {
     try {
         const { _donorName } = req.body
         const txReceipt = await charityContractInstance.registerAsDonor(_donorName)
-        
         res.status(200).json(txReceipt)
-        
-
     } 
     catch(error) {
         res.status(500).send(error.message)
     }
 })
-
-
 
 // POST Request: get a charity organization
 router.post('/get-charity-org', async (req,res) => {
@@ -71,7 +66,6 @@ router.post('/get-charity-org', async (req,res) => {
         res.status(500).send(error.message)
     }
 })
-
 
 // GET Request: get all charity org
 // Returns back a list of charityOrg object
