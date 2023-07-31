@@ -54,6 +54,70 @@ router.post('/register-as-donor', async (req,res) => {
     }
 })
 
+// POST Request: create campaign
+router.post('/create-campaign', async (req,res) => {
+    try {
+        const { _campaignName, _campaignDesc, _dueDate, _acceptedPaymentMethod, _adminFee, _beneficiaries } = req.body
+        const txReceipt = await charityContractInstance.createCampaign(_campaignName, _campaignDesc, _dueDate, _acceptedPaymentMethod, _adminFee, _beneficiaries)
+        res.status(200).json(txReceipt)
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
+// GET Request: get all campaign
+// Returns back a list of campaign object
+router.get('/get-all-campaign', async (req,res) => {
+    try {       
+        const txReceipt = await charityContractInstance.getAllCampaign()
+        res.status(200).json(txReceipt)
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
+// GET Request: get campaign by campaign id
+// Returns back a campaign object
+router.get('/get-campaign/:campaignId', async (req,res) => {
+    try {       
+        const campaignId = req.params.campaignId
+        const txReceipt = await charityContractInstance.getCampaign(campaignId)
+        res.status(200).json(txReceipt)
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
+// POST Request: donate
+// @dev how to handle payable functions
+// https://stackoverflow.com/questions/68198724/how-would-i-send-an-eth-value-to-specific-smart-contract-function-that-is-payabl
+router.post('/donate', async (req,res) => {
+    try {
+        const { _campaignId, _etherValue } = req.body
+        const options = {value: ethers.utils.parseEther(_etherValue)}
+        const txReceipt = await charityContractInstance.donate(_campaignId, options)
+        res.status(200).json(txReceipt)
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
+// POST Request: release fund
+router.post('/release-fund', async (req,res) => {
+    try {
+        const { _campaignId } = req.body
+        const txReceipt = await charityContractInstance.releaseFund(_campaignId)
+        res.status(200).json(txReceipt)
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
 // POST Request: get a charity organization
 router.post('/get-charity-org', async (req,res) => {
     try {

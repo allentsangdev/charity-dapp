@@ -188,7 +188,7 @@ contract Charity {
 
         address payable[] memory targetBeneficiaries = targetCampaign.beneficiaries;
 
-        uint fundAllocationAmount = (1 / targetBeneficiaries.length) * targetCampaign.raisedAmount; 
+        uint fundAllocationAmount = targetCampaign.raisedAmount / targetBeneficiaries.length; 
 
         for (uint i = 0; i < targetBeneficiaries.length; i++) {
             targetBeneficiaries[i].transfer(fundAllocationAmount);
