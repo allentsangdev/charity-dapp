@@ -58,7 +58,7 @@ export default function AuthenticationPage() {
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div className="flex flex-col space-y-2 text-center">
               <h1 className="text-xl font-semibold tracking-tight">
-                Are you a Donator or Campaigner?
+                Are you a Donator or an Organization?
               </h1>
               <p className="text-sm text-muted-foreground">
                 Tell us what you want to be!

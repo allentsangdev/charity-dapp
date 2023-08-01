@@ -33,15 +33,15 @@ export function Tab() {
   return (
     <Tabs className="w-[400px]">
       <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="account">Campaigner</TabsTrigger>
+        <TabsTrigger value="account">Organization</TabsTrigger>
         <TabsTrigger value="password">Donator</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
         <Card>
           <CardHeader>
-            <CardTitle>Campaigner</CardTitle>
+            <CardTitle>Organization</CardTitle>
             <CardDescription>
-              Enter your email below to log in to your account
+              Enter your email below to create your account
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -55,9 +55,13 @@ export function Tab() {
             </div>
           </CardContent>
           <CardFooter>
-            <Link href="/dashboard">
-              <Button onClick={handleCampaignRegister}>Log in</Button>
-            </Link>
+            <div className="w-full border">
+              <Link href="/dashboard">
+                <Button onClick={handleCampaignRegister} className="w-full">
+                  Register
+                </Button>
+              </Link>
+            </div>
           </CardFooter>
         </Card>
       </TabsContent>
@@ -80,9 +84,13 @@ export function Tab() {
             </div>
           </CardContent>
           <CardFooter className="w-full flex justify-between items-center">
-            <Link href="/list">
-              <Button onClick={handleCampaignRegister}>Register</Button>
-            </Link>
+            <div className="w-full border">
+              <Link href="/list">
+                <Button onClick={handleCampaignRegister} className="w-full">
+                  Register
+                </Button>
+              </Link>
+            </div>
           </CardFooter>
         </Card>
       </TabsContent>

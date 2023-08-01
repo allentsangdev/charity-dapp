@@ -23,11 +23,8 @@ import Loading from "@/components/Loading"
 
 const TableDemo = () => {
   const getData = async () => {
-    const response = await axios.post(
-      `http://20.63.75.49:4000/get-all-campaign`,
-      {
-        identityLabel: "User1@org1.example.com",
-      }
+    const response = await axios.get(
+      `https://charity-dapp-api.onrender.com/get-all-campaign`
     )
     return response.data
   }
@@ -50,7 +47,7 @@ const TableDemo = () => {
                 <TableHead>Due Date</TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            {/* <TableBody>
               {data?.map((item: Campaign, index: number) => (
                 <TableRow key={item?.ID}>
                   <TableCell className="font-medium">
@@ -75,7 +72,7 @@ const TableDemo = () => {
                   </TableCell>
                 </TableRow>
               ))}
-            </TableBody>
+            </TableBody> */}
           </Table>
         </div>
       )}
