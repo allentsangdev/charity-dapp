@@ -56,7 +56,7 @@ export function Tab() {
           </CardContent>
           <CardFooter>
             <div className="w-full border">
-              <Link href="/dashboard">
+              <Link href="/dashboard/campaigns">
                 <Button onClick={handleCampaignRegister} className="w-full">
                   Register
                 </Button>

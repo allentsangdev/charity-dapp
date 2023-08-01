@@ -18,7 +18,7 @@ import AddCampaginForm from "../dashboard/AddCampaginForm"
 import { Label } from "./label"
 import { Separator } from "./separator"
 
-export function MyDrawer({ children }: any) {
+export function MyDrawer({ children, refetch }: any) {
   const [open, setOpen] = useState(false)
   return (
     <Drawer.Root dismissible={false} open={open}>
@@ -48,7 +48,7 @@ export function MyDrawer({ children }: any) {
                   <CardDescription />
                   <CardDescription />
                   <CardDescription />
-                  <AddCampaginForm {...{ open, setOpen }} />
+                  <AddCampaginForm {...{ open, setOpen, refetch }} />
                 </CardHeader>
               </Card>
             </div>

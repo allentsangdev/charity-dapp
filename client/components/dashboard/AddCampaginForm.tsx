@@ -48,7 +48,7 @@ function convertToNumber(amountString: string) {
   return amountNumber
 }
 
-const AddCampaginForm = ({ open, setOpen }: any) => {
+const AddCampaginForm = ({ open, setOpen, refetch }: any) => {
   const form = useForm()
   const { toast } = useToast()
 
@@ -86,6 +86,7 @@ const AddCampaginForm = ({ open, setOpen }: any) => {
         toast({
           description: "Your new Campaign has been created!.",
         })
+        refetch()
         setOpen(false)
       },
     }

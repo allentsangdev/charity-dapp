@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Loading from "@/components/Loading"
 import { AlertModal } from "@/components/donator/Modal"
 
@@ -48,59 +49,23 @@ const page = () => {
       {/* {isLoading || doLoading ? (
         <Loading />
       ) : ( */}
-      <div className="w-full flex justify-center items-center">
-        <Card className="">
-          <CardHeader>
-            <CardTitle className="w-96 h-12 flex justify-center text-2xl border">
-              <div className="w-full border">
-                <Link href="/">
-                  <Button variant="ghost">Log out</Button>
-                </Link>
-              </div>
-              {/* {data?.CampaignName} */}
-              <div className="w-full border flex justify-center items-center">
-                Title
-              </div>
-
-              <div className=" ">
-                <MyDrawer>
-                  <Button className="flex justify-center items-center text-lg font-bold rounded-full">
-                    +
-                  </Button>
-                </MyDrawer>
-              </div>
-            </CardTitle>
-            <CardDescription />
-            <CardDescription />
-            <CardDescription />
-            <CardDescription className="text-base">
-              {/* {data?.FundReceiver} */}
-            </CardDescription>
-            <CardDescription />
-            <Separator orientation="horizontal" />
-            <CardDescription />
-            {/* <CardDescription>{data?.CampaignDesc}</CardDescription> */}
-          </CardHeader>
-          <CardContent>
-            <form>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-4">
-                  <Label htmlFor="name">Amount</Label>
-                  {/* {isWithdraw
-                      ? "$0"
-                      : `$${thousandSeparator(data?.CurrentRaisedAmt)}`} */}
-                </div>
-              </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            <AlertModal isDonator={false} {...{ handleWithdraw }}>
-              <Button>Withdraw the fund</Button>
-            </AlertModal>
-          </CardFooter>
-        </Card>
+      <div className="space-y-6">
+        <div>
+          <h3 className="text-2xl font-medium">Campaigns</h3>
+          <p className="text-sm text-muted-foreground">
+            Update your account settings. Set your preferred language and
+            timezone.
+          </p>
+        </div>
+        <Separator />
       </div>
-      {/* )} */}
+      {/* ADD CAMPAIGN IS HERE  */}
+      {/* <MyDrawer>
+        <Button className="flex justify-center items-center text-lg font-bold rounded-full">
+          +
+        </Button>
+      </MyDrawer> */}
+      {/* ADD CAMPAIGN IS HERE  */}
     </>
   )
 }
