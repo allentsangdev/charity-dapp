@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { NumericFormat } from "react-number-format"
 import { useMutation } from "react-query"
@@ -36,6 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select"
+import { useToast } from "../ui/use-toast"
 
 function convertToNumber(amountString: string) {
   // Remove all non-numeric characters using regular expression
@@ -49,24 +50,51 @@ function convertToNumber(amountString: string) {
 
 const AddCampaginForm = ({ open, setOpen }: any) => {
   const form = useForm()
+  const { toast } = useToast()
 
-  const mutation = useMutation((data: any) => {
-    const { name, description, dueDate, paymentType, adminFee, beneficiaries } =
-      data
-    return axios.post("https://charity-dapp-api.onrender.com/create-campaign", {
-      _campaignName: name,
-      _campaignDesc: description,
-      _dueDate: format(dueDate, "PPP"),
-      _acceptedPaymentMethod: paymentType,
-      _adminFee: convertToNumber(adminFee),
-      _beneficiaries: [beneficiaries],
-    })
-  })
+  const mutation = useMutation(
+    (data: any) => {
+      const {
+        name,
+        description,
+        dueDate,
+        paymentType,
+        adminFee,
+        beneficiaries,
+      } = data
+      return axios.post(
+        "https://charity-dapp-api.onrender.com/create-campaign",
+        {
+          _campaignName: name,
+          _campaignDesc: description,
+          _dueDate: format(dueDate, "PPP"),
+          _acceptedPaymentMethod: paymentType,
+          _adminFee: convertToNumber(adminFee),
+          _beneficiaries: [beneficiaries],
+        }
+      )
+    },
+    {
+      onError: (error: any) => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+        })
+      },
+      onSuccess: (data: any) => {
+        toast({
+          description: "Your new Campaign has been created!.",
+        })
+        setOpen(false)
+      },
+    }
+  )
+
+  const { isLoading } = mutation
 
   const onSubmit = (data: any) => {
     mutation.mutate(data)
-
-    setOpen(false)
   }
 
   return (
@@ -196,9 +224,16 @@ const AddCampaginForm = ({ open, setOpen }: any) => {
             </FormItem>
           )}
         />
-        <Button className="w-full" type="submit">
-          Create
-        </Button>
+        {isLoading ? (
+          <Button disabled className="w-full">
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Please wait
+          </Button>
+        ) : (
+          <Button className="w-full" type="submit">
+            Create
+          </Button>
+        )}
       </form>
     </Form>
   )
