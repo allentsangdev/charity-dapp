@@ -22,7 +22,7 @@ contract Charity {
         string charityName;
         string charityDesc;
         uint charityId;
-        string reputationLevel; // higher reputation --> can create more robust campaign --> reputation level can only 
+        ReputationLevel reputationLevel; // higher reputation --> can create more robust campaign --> reputation level can only 
     }
     
     enum CampaignState {Fundraising, ExpiredRefund, Successful}
@@ -73,7 +73,7 @@ contract Charity {
                 charityName: "Redcross",
                 charityDesc: "The American Red Cross is a humanitarian organization that provides emergency assistance, disaster relief, and education in the United States.",
                 charityId: 1,
-                reputationLevel: "Major"
+                reputationLevel: ReputationLevel.Major
             }
         )
         );
@@ -85,7 +85,7 @@ contract Charity {
                 charityName: "UNICEF",
                 charityDesc: "UNICEF is a United Nations agency dedicated to providing humanitarian and developmental assistance to children and mothers in developing countries.",
                 charityId: 2,
-                reputationLevel: "Major"
+                reputationLevel: ReputationLevel.Major
             }
         )
         );
@@ -97,7 +97,7 @@ contract Charity {
                 charityName: "WWF",
                 charityDesc: "The World Wide Fund for Nature, also known as the World Wildlife Fund, is one of the largest conservation organizations in the world",
                 charityId: 3,
-                reputationLevel: "Major"
+                reputationLevel: ReputationLevel.Major
             }
         )
         );
@@ -114,7 +114,7 @@ contract Charity {
                     charityName: _charityName,
                     charityDesc: _charityDesc,
                     charityId: charityOrgList.length, // using the length of the charityOrgList as the unique ID
-                    reputationLevel: "Small"
+                    reputationLevel: ReputationLevel.Micro
                 }));
     
         return charityOrgList;
