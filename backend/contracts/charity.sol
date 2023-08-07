@@ -10,7 +10,7 @@ contract Charity {
 4. Fund distrubuted to beneficiaries equally
 5. Have not implement the credit system
 */
-// ----------------------------------- Date Structures ----------------------------------- //
+// ----------------------------------- Data Structures ----------------------------------- //
 
     enum ReputationLevel {Micro, Small, Medium, Large, Major}
 
