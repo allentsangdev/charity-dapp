@@ -13,5 +13,8 @@
 ## Business Usecase
 Refer to [USECASE.md](https://url.com)
 
+## Technical Design
+Refer to [TECH.md](https://url.com)
+
 ## Want to Contribute? 
 Contributions are welcome! If you find any issues or want to add new features, please submit a pull request.
