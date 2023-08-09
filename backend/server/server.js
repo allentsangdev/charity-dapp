@@ -11,7 +11,6 @@ const QUICKNODE_URL = process.env.QUICKNODE_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY; // To update this to let user provide private key
 const contractAddress = process.env.CONTRACT_ADDRESS;
 const {abi} = require('../src/artifacts/contracts/charity.sol/Charity.json')
-const { _fetchData } = require('ethers/lib/utils')
 
 // initiate connection to avalanche client
 const provider = new ethers.providers.JsonRpcProvider(QUICKNODE_URL);
@@ -21,6 +20,27 @@ const charityContractInstance = new ethers.Contract(contractAddress, abi, signer
 // Middlewares
 app.use(cors())
 app.use(express.json())
+
+// function to initiate connection to avalanche client by using private key
+function connectToAvax1(privateKey) {
+    const signer = new ethers.Wallet(privateKey, provider);
+    const charityContractInstanceTest = new ethers.Contract(contractAddress, abi, signer);
+    return charityContractInstanceTest
+}
+
+// POST Request: TESTING ENDPOINT using Private Key to connect
+router.post('/connection-test', async (req,res) => {
+    try {
+        const { privateKey } = req.body
+        const charityContractInstanceTest = await connectToAvax1(privateKey)
+        const txReceipt = await charityContractInstanceTest.getAllCampaign()
+        res.status(200).json(txReceipt)
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
 
 /* ----- Define Routes ----- */
 
