@@ -1,7 +1,9 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import axios from "axios"
+import { ethers } from "ethers"
 import { useQuery } from "react-query"
 
 import { Button } from "@/components/ui/button"
@@ -18,18 +20,47 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function Tab() {
-  const handleCampaignRegister = async () => {
-    // try {
-    //   const res = await axios.post(`http://20.63.75.49:4000/loginUser`, {
-    //     identityLabel: "User1@org1.example.com",
-    //     enrollmentID: "admin",
-    //     enrollmentSecret: "adminpw",
-    //   })
-    //   console.log("response: ", res.data)
-    // } catch (error) {
-    //   console.log(error)
-    // }
+  const [wallet, setWallet] = useState("")
+
+  const handleCampaignRegister = async () => {}
+
+  const requestAccount = async () => {
+    if (window?.ethereum) {
+      console.log("Metamask detected")
+
+      try {
+        const accounts = await window?.ethereum?.request({
+          method: "eth_requestAccounts",
+        })
+        console.log(accounts)
+        setWallet(accounts[0])
+      } catch (e) {
+        console.log(e)
+      }
+    }
   }
+
+  const handleConnectDonorWallet = async () => {
+    try {
+      if (!window.ethereum) {
+        throw new Error("Ethereum provider not detected")
+      }
+
+      await requestAccount()
+
+      // Create a Web3Provider instance
+      const provider = new ethers.providers.Web3Provider(window.ethereum)
+      console.log("provider:", provider)
+      const signer = provider.getSigner()
+      const address = await signer.getAddress()
+
+      console.log("signer: ", signer)
+      console.log("address: ", address)
+    } catch (error) {
+      console.error("Error connecting wallet:", error)
+    }
+  }
+
   return (
     <Tabs className="w-[400px]">
       <TabsList className="grid w-full grid-cols-2">
@@ -70,10 +101,10 @@ export function Tab() {
           <CardHeader>
             <CardTitle>Donator</CardTitle>
             <CardDescription>
-              Enter your email below to create your account
+              Connect your Metamask wallet to create your account
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
+          {/* <CardContent className="space-y-2">
             <div className="space-y-1">
               <Label htmlFor="current">Username</Label>
               <Input id="current" type="email" />
@@ -82,12 +113,12 @@ export function Tab() {
               <Label htmlFor="new">Password</Label>
               <Input id="new" type="password" />
             </div>
-          </CardContent>
+          </CardContent> */}
           <CardFooter className="w-full flex justify-between items-center">
             <div className="w-full border">
-              <Link href="/list">
-                <Button onClick={handleCampaignRegister} className="w-full">
-                  Register
+              <Link href="">
+                <Button onClick={handleConnectDonorWallet} className="w-full">
+                  Connect your wallet
                 </Button>
               </Link>
             </div>
