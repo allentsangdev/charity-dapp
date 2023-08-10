@@ -17,6 +17,8 @@ const provider = new ethers.providers.JsonRpcProvider(QUICKNODE_URL);
 const signer = new ethers.Wallet(PRIVATE_KEY, provider);
 const charityContractInstance = new ethers.Contract(contractAddress, abi, signer);
 
+const charityContractInstanceProvider = new ethers.Contract(contractAddress, abi, provider);
+
 // Middlewares
 app.use(cors())
 app.use(express.json())
@@ -34,6 +36,17 @@ router.post('/connection-test', async (req,res) => {
         const { privateKey } = req.body
         const charityContractInstanceTest = await connectToAvax1(privateKey)
         const txReceipt = await charityContractInstanceTest.getAllCampaign()
+        res.status(200).json(txReceipt)
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
+// POST Request: TESTING ENDPOINT using Private Key to connect
+router.post('/connection-test-2', async (req,res) => {
+    try {
+        const txReceipt = await charityContractInstanceTestProvider.getAllCampaign()
         res.status(200).json(txReceipt)
     } 
     catch(error) {
