@@ -23,18 +23,6 @@ const readOnlyCharityContractInstance = new ethers.Contract(contractAddress, abi
 app.use(cors())
 app.use(express.json())
 
-// POST Request: TESTING ENDPOINT using Private Key to connect
-router.post('/connection-test-2', async (req,res) => {
-    try {
-        const txReceipt = await readOnlyCharityContractInstance.getAllCampaign()
-        res.status(200).json(txReceipt)
-    } 
-    catch(error) {
-        res.status(500).send(error.message)
-    }
-})
-
-
 /* ----- Define Routes ----- */
 
 // Landing Route
@@ -48,7 +36,7 @@ router.get("/", (req,res) => {
 // Returns back a list of campaign object
 router.get('/get-all-campaign', async (req,res) => {
     try {       
-        const txReceipt = await charityContractInstance.getAllCampaign()
+        const txReceipt = await readOnlyCharityContractInstance.getAllCampaign()
         res.status(200).json(txReceipt)
     } 
     catch(error) {
@@ -61,7 +49,7 @@ router.get('/get-all-campaign', async (req,res) => {
 router.get('/get-campaign/:campaignId', async (req,res) => {
     try {       
         const campaignId = req.params.campaignId
-        const txReceipt = await charityContractInstance.getCampaign(campaignId)
+        const txReceipt = await readOnlyCharityContractInstance.getCampaign(campaignId)
         res.status(200).json(txReceipt)
     } 
     catch(error) {
@@ -73,7 +61,7 @@ router.get('/get-campaign/:campaignId', async (req,res) => {
 router.post('/get-charity-org', async (req,res) => {
     try {
         const { _charityId } = req.body
-        const txReceipt = await charityContractInstance.getCharityOrg(_charityId)
+        const txReceipt = await readOnlyCharityContractInstance.getCharityOrg(_charityId)
         res.status(200).json(txReceipt)
 
     } 
@@ -86,7 +74,7 @@ router.post('/get-charity-org', async (req,res) => {
 // Returns back a list of charityOrg object
 router.get('/get-all-charityOrg', async (req,res) => {
     try {       
-        const txReceipt = await charityContractInstance.getAllCharityOrg()
+        const txReceipt = await readOnlyCharityContractInstance.getAllCharityOrg()
         res.status(200).json(txReceipt)
 
     } 
