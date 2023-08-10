@@ -46,7 +46,7 @@ router.post('/connection-test', async (req,res) => {
 // POST Request: TESTING ENDPOINT using Private Key to connect
 router.post('/connection-test-2', async (req,res) => {
     try {
-        const txReceipt = await charityContractInstanceTestProvider.getAllCampaign()
+        const txReceipt = await charityContractInstanceProvider.getAllCampaign()
         res.status(200).json(txReceipt)
     } 
     catch(error) {
