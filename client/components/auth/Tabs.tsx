@@ -19,10 +19,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+import {registerAsCharityOrg} from "../../controller/controller"
+
 export function Tab() {
   const [wallet, setWallet] = useState("")
 
-  const handleCampaignRegister = async () => {}
+  const handleCampaignRegister = async () => {
+    registerAsCharityOrg(window.ethereum, "Testing Name","Testinf Desc")
+  }
 
   const requestAccount = async () => {
     if (window?.ethereum) {
