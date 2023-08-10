@@ -13,40 +13,20 @@ const contractAddress = process.env.CONTRACT_ADDRESS;
 const {abi} = require('../src/artifacts/contracts/charity.sol/Charity.json')
 
 // initiate connection to avalanche client
+// this will return back a read only contract instance
 const provider = new ethers.providers.JsonRpcProvider(QUICKNODE_URL);
-const signer = new ethers.Wallet(PRIVATE_KEY, provider);
-const charityContractInstance = new ethers.Contract(contractAddress, abi, signer);
-
-const charityContractInstanceProvider = new ethers.Contract(contractAddress, abi, provider);
+const readOnlyCharityContractInstance = new ethers.Contract(contractAddress, abi, provider);
+//const signer = new ethers.Wallet(PRIVATE_KEY, provider);
+//const charityContractInstance = new ethers.Contract(contractAddress, abi, signer);
 
 // Middlewares
 app.use(cors())
 app.use(express.json())
 
-// function to initiate connection to avalanche client by using private key
-function connectToAvax1(privateKey) {
-    const signer = new ethers.Wallet(privateKey, provider);
-    const charityContractInstanceTest = new ethers.Contract(contractAddress, abi, signer);
-    return charityContractInstanceTest
-}
-
-// POST Request: TESTING ENDPOINT using Private Key to connect
-router.post('/connection-test', async (req,res) => {
-    try {
-        const { privateKey } = req.body
-        const charityContractInstanceTest = await connectToAvax1(privateKey)
-        const txReceipt = await charityContractInstanceTest.getAllCampaign()
-        res.status(200).json(txReceipt)
-    } 
-    catch(error) {
-        res.status(500).send(error.message)
-    }
-})
-
 // POST Request: TESTING ENDPOINT using Private Key to connect
 router.post('/connection-test-2', async (req,res) => {
     try {
-        const txReceipt = await charityContractInstanceProvider.getAllCampaign()
+        const txReceipt = await readOnlyCharityContractInstance.getAllCampaign()
         res.status(200).json(txReceipt)
     } 
     catch(error) {
@@ -62,6 +42,61 @@ router.get("/", (req,res) => {
     res.send("<h1>Server On!!!</h1>")
 })
 
+/* ----- Read Only Routes ----- */
+
+// GET Request: get all campaign
+// Returns back a list of campaign object
+router.get('/get-all-campaign', async (req,res) => {
+    try {       
+        const txReceipt = await charityContractInstance.getAllCampaign()
+        res.status(200).json(txReceipt)
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
+// GET Request: get campaign by campaign id
+// Returns back a campaign object
+router.get('/get-campaign/:campaignId', async (req,res) => {
+    try {       
+        const campaignId = req.params.campaignId
+        const txReceipt = await charityContractInstance.getCampaign(campaignId)
+        res.status(200).json(txReceipt)
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
+// POST Request: get a charity organization
+router.post('/get-charity-org', async (req,res) => {
+    try {
+        const { _charityId } = req.body
+        const txReceipt = await charityContractInstance.getCharityOrg(_charityId)
+        res.status(200).json(txReceipt)
+
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
+// GET Request: get all charity org
+// Returns back a list of charityOrg object
+router.get('/get-all-charityOrg', async (req,res) => {
+    try {       
+        const txReceipt = await charityContractInstance.getAllCharityOrg()
+        res.status(200).json(txReceipt)
+
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
+/* ----- Transaction Routes ----- */
+/*
 // POST Request: register as charity organization
 router.post('/register-as-charity-org', async (req,res) => {
     try {
@@ -99,31 +134,6 @@ router.post('/create-campaign', async (req,res) => {
     }
 })
 
-// GET Request: get all campaign
-// Returns back a list of campaign object
-router.get('/get-all-campaign', async (req,res) => {
-    try {       
-        const txReceipt = await charityContractInstance.getAllCampaign()
-        res.status(200).json(txReceipt)
-    } 
-    catch(error) {
-        res.status(500).send(error.message)
-    }
-})
-
-// GET Request: get campaign by campaign id
-// Returns back a campaign object
-router.get('/get-campaign/:campaignId', async (req,res) => {
-    try {       
-        const campaignId = req.params.campaignId
-        const txReceipt = await charityContractInstance.getCampaign(campaignId)
-        res.status(200).json(txReceipt)
-    } 
-    catch(error) {
-        res.status(500).send(error.message)
-    }
-})
-
 // POST Request: donate
 // @dev how to handle payable functions
 // https://stackoverflow.com/questions/68198724/how-would-i-send-an-eth-value-to-specific-smart-contract-function-that-is-payabl
@@ -151,31 +161,7 @@ router.post('/release-fund', async (req,res) => {
     }
 })
 
-// POST Request: get a charity organization
-router.post('/get-charity-org', async (req,res) => {
-    try {
-        const { _charityId } = req.body
-        const txReceipt = await charityContractInstance.getCharityOrg(_charityId)
-        res.status(200).json(txReceipt)
-
-    } 
-    catch(error) {
-        res.status(500).send(error.message)
-    }
-})
-
-// GET Request: get all charity org
-// Returns back a list of charityOrg object
-router.get('/get-all-charityOrg', async (req,res) => {
-    try {       
-        const txReceipt = await charityContractInstance.getAllCharityOrg()
-        res.status(200).json(txReceipt)
-
-    } 
-    catch(error) {
-        res.status(500).send(error.message)
-    }
-})
+*/
 
 app.use('/', router)
 
