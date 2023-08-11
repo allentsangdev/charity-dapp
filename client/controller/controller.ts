@@ -14,7 +14,7 @@ async function connectNode (eth: any) {
 }
 
 // register as charity organization
-// pass in window.ethereum to this eth
+// pass in window.ethereum to eth
 async function registerAsCharityOrg (eth:any, _charityName:any, _charityDesc: any ) {
     try {
         const charityContractInstance = await connectNode(eth)
@@ -27,7 +27,7 @@ async function registerAsCharityOrg (eth:any, _charityName:any, _charityDesc: an
 }
 
 // register as donor
-// pass in window.ethereum to this eth
+// pass in window.ethereum to eth
 async function registerAsDonor (eth:any, _donorName:any) {
     try {
         const charityContractInstance = await connectNode(eth)
@@ -40,7 +40,7 @@ async function registerAsDonor (eth:any, _donorName:any) {
 }
 
 // create campaign
-// pass in window.ethereum to this eth
+// pass in window.ethereum to eth
 async function createCampaign (eth:any, _campaignName:string, _campaignDesc:string, _dueDate:string, _acceptedPaymentMethod:string, _adminFee:number, _beneficiaries:any) {
     try {
         const charityContractInstance = await connectNode(eth)
