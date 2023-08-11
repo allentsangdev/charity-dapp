@@ -67,5 +67,7 @@ async function donate (eth:any, _campaignId:number, _etherValue:number) {
 export {
     registerAsCharityOrg,
     registerAsDonor,
-    createCampaign
+    createCampaign,
+    donate
+
 }
