@@ -8,6 +8,13 @@
 ## About
 
 ## Features
+- Register users' metamask wallet account as a charity organization of the Charitable Platform
+- Register users' metamask wallet account as a Donor of the Charitable Platform
+- Create a Charitable Campaign on the Platform
+- Manage the created Charitable Campaign
+- Donate AVAX to the listed Charitable Campaign
+- Release AVAX to the beneficiaries specified by the Charity Organization
+
 
 ## Business Usecase
 Refer to [USECASE.md](https://url.com)
