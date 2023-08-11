@@ -39,7 +39,21 @@ async function registerAsDonor (eth:any, _donorName:any) {
     }
 }
 
+// create campaign
+// pass in window.ethereum to this eth
+async function createCampaign (eth:any, _campaignName:string, _campaignDesc:string, _dueDate:string, _acceptedPaymentMethod:string, _adminFee:number, _beneficiaries:any) {
+    try {
+        const charityContractInstance = await connectNode(eth)
+        const txReceipt = await charityContractInstance.createCampaign(_campaignName, _campaignDesc, _dueDate, _acceptedPaymentMethod, _adminFee, _beneficiaries)
+        console.log(txReceipt)
+        return txReceipt
+    } catch(error:any) {
+        return error.message
+    }
+}
+
 export {
     registerAsCharityOrg,
-    registerAsDonor
+    registerAsDonor,
+    createCampaign
 }
