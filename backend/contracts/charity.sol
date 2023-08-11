@@ -215,20 +215,31 @@ contract Charity {
     // release fund to beneficiaries equally
     // raised amount divided by the length of the beneficiaries list
     // function expected to be trigger by charity org manually. Look into ways to automate this process
-    function releaseFund(uint _campaignId) public isValidCampaign(_campaignId) isCharityOrg {
-        Campaign memory targetCampaign = getCampaign(_campaignId);
+   function releaseFund(uint _campaignId) public isValidCampaign(_campaignId) isCharityOrg {
+        Campaign storage targetCampaign = campaignList[_campaignId];  // Used storage reference so modification can be directly be done on camp struct
+
+        // ???? if new states are added we need to change this.
+        require(targetCampaign.campaignState == CampaignState.Fundraising, "Campaign not active");
 
         address payable[] memory targetBeneficiaries = targetCampaign.beneficiaries;
 
-        uint fundAllocationAmount = targetCampaign.raisedAmount / targetBeneficiaries.length; 
+        // avoid mony lost.
+        uint fundAllocationAmount = targetCampaign.raisedAmount / targetBeneficiaries.length;
+        uint remainder = targetCampaign.raisedAmount - (fundAllocationAmount * targetBeneficiaries.length); 
 
         for (uint i = 0; i < targetBeneficiaries.length; i++) {
             targetBeneficiaries[i].transfer(fundAllocationAmount);
         }
 
+        if (remainder > 0) {
+            // Decide how to handle the remainder.
+            // One way could be transferring it to the first beneficiary or back to the charity org
+            targetBeneficiaries[0].transfer(remainder);
+        }
+
+        targetCampaign.raisedAmount = 0;  // Ensure the raisedAmount is set to 0 after disbursing
         targetCampaign.campaignState = CampaignState.Successful;
         emit FundReleased(_campaignId);
-
     }
 
     // ----------------------------------- Helper Functions ----------------------------------- //
