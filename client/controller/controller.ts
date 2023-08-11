@@ -52,6 +52,18 @@ async function createCampaign (eth:any, _campaignName:string, _campaignDesc:stri
     }
 }
 
+// donate
+// pass in window.ethereum to eth
+async function donate (eth:any, _campaignId:number, _etherValue:number) {
+    try {
+        const charityContractInstance = await connectNode(eth)
+        const txReceipt = await charityContractInstance.donate(_campaignId, _etherValue)
+        console.log(txReceipt)
+        return txReceipt
+    } catch(error:any) {
+        return error.message
+    }
+}
 export {
     registerAsCharityOrg,
     registerAsDonor,
