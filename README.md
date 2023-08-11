@@ -6,6 +6,7 @@
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 
 ## About
+This repository hosts the codebase for an innovative Decentralized Charitable Fundraising Platform, developed as a robust Avalanche Full Stack Dapp. Leveraging a comprehensive technology stack that includes Next.js, Express.js, and a RESTful API, the platform ensures a seamless user experience. By harnessing Avalanche's capabilities and integrating Solidity smart contracts using Hardhat and Ether.js, the platform enables secure, transparent, and efficient donation processes. 
 
 ## Features
 - Register users' metamask wallet account as a charity organization of the Charitable Platform
