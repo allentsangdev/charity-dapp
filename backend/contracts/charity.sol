@@ -180,6 +180,30 @@ contract Charity {
             }
         }
     }
+
+    function getCampaignByOwner(address _campaignOwner) public view returns (Campaign[] memory) {
+        Campaign[] memory localCampaignList;
+        uint count = 0;
+
+        // check how many campaign of a campaign owner owns. Will assign this number to the local dynamic array
+        for (uint i = 0; i < campaignList.length; i++ ) {
+            if(campaignList[i].campaignOwner == _campaignOwner) {
+                count++;
+            }
+        }
+
+        localCampaignList = new Campaign[](count);
+        count = 0;
+
+        for (uint i = 0; i < campaignList.length; i++ ) {
+            if(campaignList[i].campaignOwner == _campaignOwner) {
+                localCampaignList[count] = campaignList[i];
+                count++;
+            }
+        }
+
+        return localCampaignList;
+    }
     
     // need to look into what kind of currency donor is donating
     // need to add update transaction history logic
