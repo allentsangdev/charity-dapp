@@ -32,7 +32,7 @@ router.get("/", (req,res) => {
 
 /* ----- Read Only Routes ----- */
 
-// GET Request: get all campaign
+// GET Request: get all campaign.
 // Returns back a list of campaign object
 router.get('/get-all-campaign', async (req,res) => {
     try {       
