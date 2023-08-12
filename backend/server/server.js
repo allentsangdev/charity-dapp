@@ -57,6 +57,19 @@ router.get('/get-campaign/:campaignId', async (req,res) => {
     }
 })
 
+// GET Request: get campaign by campaign owner address
+// Returns back a campaign object
+router.get('/get-campaign/:campaignOwnerAddress', async (req,res) => {
+    try {       
+        const campaignOwnerAddress = req.params.campaignOwnerAddress
+        const txReceipt = await readOnlyCharityContractInstance.getCampaignByOwner(campaignOwnerAddress)
+        res.status(200).json(txReceipt)
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
 // POST Request: get a charity organization
 router.post('/get-charity-org', async (req,res) => {
     try {
