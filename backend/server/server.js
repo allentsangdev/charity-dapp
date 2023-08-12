@@ -151,6 +151,42 @@ router.post('/release-fund', async (req,res) => {
 
 */
 
+
+// GET Request: get all TransactionHistory
+// Returns back a list of Transaction object
+router.post('/get-transaction-history', async (req, res) => {
+    try {
+        const { _campaignId } = req.body;
+
+        // Input validation
+        if (!_campaignId || typeof _campaignId !== 'number') {
+            return res.status(400).send('Invalid campaign ID.');
+        }
+
+        const txReceipt = await charityContractInstance.getTransactionHistory(_campaignId);
+
+        // If using web3.js, the actual return data might be inside txReceipt.events... or txReceipt.returnValues... depending on the version and setup.
+        res.status(200).json(txReceipt);
+    } catch (error) {
+        console.error("Error fetching transaction history for CampaignId '",_campaignId,"' :", error.message);
+        res.status(500).send("An error occurred while fetching transaction history.");
+    }
+});
+
+
+// POST Request: get a charity organization
+router.post('/get-transaction-history', async (req,res) => {
+    try {
+        const { _campaignId } = req.body
+        const txReceipt = await charityContractInstance.getTransactionHistory(_campaignId)
+        res.status(200).json(txReceipt)
+
+    } 
+    catch(error) {
+        res.status(500).send(error.message)
+    }
+})
+
 app.use('/', router)
 
 app.listen(PORT, ()=> {

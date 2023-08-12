@@ -12,6 +12,14 @@ contract Charity {
 */
 // ----------------------------------- Data Structures ----------------------------------- //
 
+    event CharityOrgRegistered(address indexed charityAddress, string charityName, uint charityId);
+    event DonorRegistered(address indexed donorAddress, string donorName, uint donorId);
+    event CampaignCreated(address indexed campaignOwner, uint campaignId, string campaignName);
+    event DonationMade(address indexed donor, uint campaignId, uint256 amount);
+    event FundReleased(uint campaignId);
+    event TransactionLogged(address indexed from, uint campaignId, uint256 amount);
+
+
     enum ReputationLevel {Micro, Small, Medium, Large, Major}
 
     // CharityOrg will have the ability to create and manage charity campaign
@@ -26,6 +34,9 @@ contract Charity {
     }
     
     enum CampaignState {Fundraising, ExpiredRefund, Successful}
+
+ 
+
 
     struct Campaign { 
         address campaignOwner;
@@ -46,9 +57,12 @@ contract Charity {
         uint donorId;
     }
 
-    struct transactionHistory {
+    struct TransactionInfo {
         address from;
-
+        uint campaignId;
+        string currencyType;
+        uint256 amountSent;
+        uint timeStamp;
     }
 
 // ----------------------------------- State Variablies ----------------------------------- //
@@ -62,6 +76,8 @@ contract Charity {
     // a list of Campaign struct to keep track of created campaign
     Campaign[] campaignList;
 
+
+    TransactionInfo[] transactionHistory;
 // ----------------------------------- Contract Constructor ----------------------------------- //
 
     // constructor to initialze validator
@@ -116,7 +132,7 @@ contract Charity {
                     charityId: charityOrgList.length, // using the length of the charityOrgList as the unique ID
                     reputationLevel: ReputationLevel.Micro
                 }));
-    
+        emit CharityOrgRegistered(msg.sender, _charityName, charityOrgList.length);
         return charityOrgList;
     }
 
@@ -131,7 +147,7 @@ contract Charity {
                 }
             )
         );
-
+        emit DonorRegistered(msg.sender, _donorName, donorList.length);
         return donorList;
             
     }
@@ -154,6 +170,8 @@ contract Charity {
                 }
             )
         );
+        emit CampaignCreated(msg.sender, campaignList.length, _campaignName);
+
     }
 
     function getAllCampaign() public view returns (Campaign[] memory) {
@@ -175,6 +193,20 @@ contract Charity {
         for (uint i = 0; i < campaignList.length; i++ ) {
             if(campaignList[i].campaignId == _campaignId) {
                 campaignList[i].raisedAmount += msg.value;
+                 transactionHistory.push(
+                    TransactionInfo(
+                    {
+                        from : msg.sender,
+                        campaignId : campaignList[i].campaignId,
+                        currencyType : "USD",
+                        amountSent :  msg.value,
+                        timeStamp : block.timestamp
+                    }
+                    )
+              );
+              // ??????????
+            emit DonationMade(msg.sender, _campaignId, msg.value);
+            emit TransactionLogged(msg.sender, _campaignId, msg.value);
             }
         }
 
@@ -183,21 +215,51 @@ contract Charity {
     // release fund to beneficiaries equally
     // raised amount divided by the length of the beneficiaries list
     // function expected to be trigger by charity org manually. Look into ways to automate this process
-    function releaseFund(uint _campaignId) public isValidCampaign(_campaignId) isCharityOrg {
-        Campaign memory targetCampaign = getCampaign(_campaignId);
+   function releaseFund(uint _campaignId) public isValidCampaign(_campaignId) isCharityOrg {
+        Campaign storage targetCampaign = campaignList[_campaignId];  // Used storage reference so modification can be directly be done on camp struct
+
+        // ???? if new states are added we need to change this.
+        require(targetCampaign.campaignState == CampaignState.Fundraising, "Campaign not active");
 
         address payable[] memory targetBeneficiaries = targetCampaign.beneficiaries;
 
-        uint fundAllocationAmount = targetCampaign.raisedAmount / targetBeneficiaries.length; 
+        // avoid mony lost.
+        uint fundAllocationAmount = targetCampaign.raisedAmount / targetBeneficiaries.length;
+        uint remainder = targetCampaign.raisedAmount - (fundAllocationAmount * targetBeneficiaries.length); 
 
         for (uint i = 0; i < targetBeneficiaries.length; i++) {
             targetBeneficiaries[i].transfer(fundAllocationAmount);
         }
 
+        if (remainder > 0) {
+            // Decide how to handle the remainder.
+            // One way could be transferring it to the first beneficiary or back to the charity org
+            targetBeneficiaries[0].transfer(remainder);
+        }
+
+        targetCampaign.raisedAmount = 0;  // Ensure the raisedAmount is set to 0 after disbursing
         targetCampaign.campaignState = CampaignState.Successful;
+        emit FundReleased(_campaignId);
     }
 
     // ----------------------------------- Helper Functions ----------------------------------- //
+
+    function getAllTransactionHistory() public view returns (TransactionInfo[] memory) {
+        return transactionHistory;
+    }
+
+    function getTransactionHistory(uint _campaignId) public view returns (TransactionInfo[] memory ) {
+       TransactionInfo[] memory _transactions = new TransactionInfo[](transactionHistory.length + 1);
+       uint _indext = 0;
+        for (uint i = 0; i < transactionHistory.length; i++ ) {
+            if(transactionHistory[i].campaignId == _campaignId) {
+
+            _transactions[_indext] =transactionHistory[i];
+             _indext = _indext + 1;
+            }
+        }
+        return _transactions;
+    }
 
     function getAllCharityOrg() public view returns (CharityOrg[] memory) {
         return charityOrgList;
