@@ -59,7 +59,7 @@ router.get('/get-campaign/:campaignId', async (req,res) => {
 
 // GET Request: get campaign by campaign owner address
 // Returns back a campaign object
-router.get('/get-campaign/:campaignOwnerAddress', async (req,res) => {
+router.get('/get-campaign-by-owner/:campaignOwnerAddress', async (req,res) => {
     try {       
         const campaignOwnerAddress = req.params.campaignOwnerAddress
         const txReceipt = await readOnlyCharityContractInstance.getCampaignByOwner(campaignOwnerAddress)
