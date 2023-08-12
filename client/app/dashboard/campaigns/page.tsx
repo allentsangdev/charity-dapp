@@ -4,7 +4,7 @@ import thousandSeparator from "@/func/thousandSep"
 import axios from "axios"
 import { useMutation, useQuery } from "react-query"
 
-import { MyDrawer } from "@/components/ui/Drawer"
+import { AddCampaginDrawer } from "@/components/ui/Drawer"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -19,9 +19,9 @@ import {
 } from "@/components/ui/table"
 import { toast } from "@/components/ui/use-toast"
 
-const formatCharityData = (charityData: any, isLoading: boolean) => {
+export const formatCharityData = (charityData: any, isLoading: boolean) => {
   if (!isLoading)
-    return charityData.map((data: any) => {
+    return charityData?.map((data: any) => {
       const [address, nothingA, name, desc, dueDate, nothingB, adminFee] = data
 
       return {
@@ -81,73 +81,121 @@ export default function SettingsAccountPage() {
           </p>
         </div>
         <div className="mt-3">
-          <MyDrawer {...{ refetch }}>
+          <AddCampaginDrawer {...{ refetch }}>
             <Button className="flex justify-center items-center font-bold">
               Create a new Campaign
             </Button>
-          </MyDrawer>
+          </AddCampaginDrawer>
         </div>
       </div>
       <Separator />
-      <Table className="w-full">
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Due Date</TableHead>
-            <TableHead>Admin Fee</TableHead>
-          </TableRow>
-        </TableHeader>
+      {!isLoading && !campList ? (
+        <div className="w-full flex justify-center items-center">
+          There is no Campaign, Wanna create a new one?
+        </div>
+      ) : (
+        <Table className="w-full">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Due Date</TableHead>
+              <TableHead>Admin Fee</TableHead>
+            </TableRow>
+          </TableHeader>
 
-        <TableBody>
-          {!isLoading ? (
-            campList?.map((camp: any, index: number) => (
-              <TableRow key={index}>
-                <TableCell className="font-medium">{camp?.name}</TableCell>
-                <TableCell>{camp?.desc}</TableCell>
-                <TableCell>{camp?.dueDate}</TableCell>
-                <TableCell>{camp?.adminFee}</TableCell>
-                <TableCell className="text-right">
-                  <Button onClick={() => mutation.mutate(index)}>
-                    Withdraw
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <>
-              <TableRow>
-                <TableCell>
-                  <Skeleton className="h-10 w-[200px]" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-10 w-[200px]" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-10 w-[200px]" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-10 w-[200px]" />
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  <Skeleton className="h-10 w-[200px]" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-10 w-[200px]" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-10 w-[200px]" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="h-10 w-[200px]" />
-                </TableCell>
-              </TableRow>
-            </>
-          )}
-        </TableBody>
-      </Table>
+          <TableBody>
+            {!isLoading ? (
+              campList?.map((camp: any, index: number) => (
+                <TableRow key={index}>
+                  <TableCell className="font-medium">{camp?.name}</TableCell>
+                  <TableCell>{camp?.desc}</TableCell>
+                  <TableCell>{camp?.dueDate}</TableCell>
+                  <TableCell>{camp?.adminFee}</TableCell>
+                  <TableCell className="text-right">
+                    <Button onClick={() => mutation.mutate(index)}>
+                      Withdraw
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <>
+                <TableRow>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-10 w-[200px]" />
+                  </TableCell>
+                </TableRow>
+              </>
+            )}
+          </TableBody>
+        </Table>
+      )}
     </div>
   )
 }
