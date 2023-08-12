@@ -19,7 +19,6 @@ contract Charity {
     event FundReleased(uint campaignId);
     event TransactionLogged(address indexed from, uint campaignId, uint256 amount);
 
-
     enum ReputationLevel {Micro, Small, Medium, Large, Major}
 
     // CharityOrg will have the ability to create and manage charity campaign
@@ -34,9 +33,6 @@ contract Charity {
     }
     
     enum CampaignState {Fundraising, ExpiredRefund, Successful}
-
- 
-
 
     struct Campaign { 
         address campaignOwner;
@@ -75,7 +71,6 @@ contract Charity {
 
     // a list of Campaign struct to keep track of created campaign
     Campaign[] campaignList;
-
 
     TransactionInfo[] transactionHistory;
 // ----------------------------------- Contract Constructor ----------------------------------- //
@@ -317,5 +312,4 @@ contract Charity {
         _;
     }
     
-
 }
