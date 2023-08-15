@@ -87,8 +87,7 @@ async function donate(eth: any, _campaignId: number, _etherValue: number) {
   try {
     const charityContractInstance = await connectNode(eth)
     const txReceipt = await charityContractInstance.donate(
-      _campaignId,
-      _etherValue
+      _campaignId, {value : _etherValue}
     )
     console.log(txReceipt)
     return txReceipt
