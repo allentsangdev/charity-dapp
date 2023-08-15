@@ -2,7 +2,7 @@ import { ethers } from "ethers"
 
 import { abi } from "./Charity.json"
 
-const contractAddress = "0xAE1ca0Aac6470F7455Cf617b94e31f1494570FDE"
+const contractAddress = "0x2e40B89f626BC407A7aFFE277c2C8E0815f69022"
 
 // pass in window.ethereum to this function
 // returns back a contract instance
