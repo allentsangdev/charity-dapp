@@ -83,11 +83,11 @@ async function createCampaign(
 
 // donate
 // pass in window.ethereum to eth
-async function donate(eth: any, _campaignId: number, _etherValue: number) {
+async function donate(eth: any, _campaignId: number, _etherValue: string) {
   try {
     const charityContractInstance = await connectNode(eth)
     const txReceipt = await charityContractInstance.donate(
-      _campaignId, {value : _etherValue}
+      _campaignId, {value : ethers.utils.parseEther(_etherValue)}
     )
     console.log(txReceipt)
     return txReceipt
