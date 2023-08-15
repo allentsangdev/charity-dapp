@@ -9,7 +9,6 @@ import { ThemeToggle } from "@/components/theme-toggle"
 
 export function SiteHeader() {
   const route = usePathname()
-  console.log(route)
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">

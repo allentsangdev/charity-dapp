@@ -33,10 +33,11 @@ export const formatCharityData = (charityData: any, isLoading: boolean) => {
     })
 }
 
-export default function SettingsAccountPage() {
+export default function SettingsAccountPage({ params }: any) {
+  const walletAddress = params?.orgID
   const getData = async () => {
     const response = await axios.get(
-      `https://charity-dapp-api.onrender.com/get-all-campaign`
+      `https://charity-dapp-api.onrender.com/get-campaign-by-owner/${walletAddress}`
     )
     return response.data
   }
@@ -81,7 +82,7 @@ export default function SettingsAccountPage() {
           </p>
         </div>
         <div className="mt-3">
-          <AddCampaginDrawer {...{ refetch }}>
+          <AddCampaginDrawer {...{ refetch, walletAddress }}>
             <Button className="flex justify-center items-center font-bold">
               Create a new Campaign
             </Button>

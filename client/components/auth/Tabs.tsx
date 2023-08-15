@@ -55,7 +55,7 @@ export function Tab() {
     const res = await registerAsCharityOrg(window.ethereum, name, desc)
 
     if (res?.hash?.length > 0) {
-      router.push("/dashboard/campaigns")
+      router.push(`/dashboard/${res?.from}`)
     } else {
       toast({
         variant: "destructive",

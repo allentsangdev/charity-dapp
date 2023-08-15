@@ -19,7 +19,7 @@ import DonateToCampagin from "../dashboard/DonateToCampagin"
 import { Label } from "./label"
 import { Separator } from "./separator"
 
-export function AddCampaginDrawer({ children, refetch }: any) {
+export function AddCampaginDrawer({ children, refetch, walletAddress }: any) {
   const [open, setOpen] = useState(false)
   return (
     <Drawer.Root dismissible={false} open={open}>
@@ -49,7 +49,9 @@ export function AddCampaginDrawer({ children, refetch }: any) {
                   <CardDescription />
                   <CardDescription />
                   <CardDescription />
-                  <AddCampaginForm {...{ open, setOpen, refetch }} />
+                  <AddCampaginForm
+                    {...{ open, setOpen, refetch, walletAddress }}
+                  />
                 </CardHeader>
               </Card>
             </div>

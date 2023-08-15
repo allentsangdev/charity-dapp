@@ -10,6 +10,7 @@ async function connectNode(eth: any) {
   const provider = new ethers.providers.Web3Provider(eth)
   await provider.send("eth_requestAccounts", [])
   const signer = provider.getSigner()
+
   // initialize contract instance
   const charityContractInstance = new ethers.Contract(
     contractAddress,
