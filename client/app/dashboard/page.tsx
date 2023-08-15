@@ -7,7 +7,6 @@ import axios from "axios"
 import { NumericFormat } from "react-number-format"
 import { useQuery } from "react-query"
 
-import { MyDrawer } from "@/components/ui/Drawer"
 import { Button } from "@/components/ui/button"
 import {
   Card,

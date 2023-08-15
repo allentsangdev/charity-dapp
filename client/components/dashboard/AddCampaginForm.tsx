@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+import { createCampaign } from "@/controller/controller"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { format } from "date-fns"
@@ -48,54 +50,80 @@ function convertToNumber(amountString: string) {
   return amountNumber
 }
 
-const AddCampaginForm = ({ open, setOpen, refetch }: any) => {
+const AddCampaginForm = ({ open, setOpen, refetch, walletAddress }: any) => {
   const form = useForm()
+  const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
 
-  const mutation = useMutation(
-    (data: any) => {
-      const {
-        name,
-        description,
-        dueDate,
-        paymentType,
-        adminFee,
-        beneficiaries,
-      } = data
-      return axios.post(
-        "https://charity-dapp-api.onrender.com/create-campaign",
-        {
-          _campaignName: name,
-          _campaignDesc: description,
-          _dueDate: format(dueDate, "PPP"),
-          _acceptedPaymentMethod: paymentType,
-          _adminFee: convertToNumber(adminFee),
-          _beneficiaries: [beneficiaries],
-        }
-      )
-    },
-    {
-      onError: (error: any) => {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
-        })
-      },
-      onSuccess: (data: any) => {
-        toast({
-          description: "Your new Campaign has been created!.",
-        })
-        refetch()
-        setOpen(false)
-      },
+  // const mutation = useMutation(
+  //   (data: any) => {
+  //     const {
+  //       name,
+  //       description,
+  //       dueDate,
+  //       paymentType,
+  //       adminFee,
+  //       beneficiaries,
+  //     } = data
+  //     return axios.post(
+  //       "https://charity-dapp-api.onrender.com/create-campaign",
+  //       {
+  //         _campaignName: name,
+  //         _campaignDesc: description,
+  //         _dueDate: format(dueDate, "PPP"),
+  //         _acceptedPaymentMethod: paymentType,
+  //         _adminFee: convertToNumber(adminFee),
+  //         _beneficiaries: [beneficiaries],
+  //       }
+  //     )
+  //   },
+  //   {
+  //     onError: (error: any) => {
+  //       toast({
+  //         variant: "destructive",
+  //         title: "Uh oh! Something went wrong.",
+  //         description: "There was a problem with your request.",
+  //       })
+  //     },
+  //     onSuccess: (data: any) => {
+  //       toast({
+  //         description: "Your new Campaign has been created!.",
+  //       })
+  //       refetch()
+  //       setOpen(false)
+  //     },
+  //   }
+  // )
+
+  // const { isLoading } = mutation
+
+  const onSubmit = async (data: any) => {
+    // mutation.mutate(data)
+    const { name, description, dueDate, paymentType, adminFee, beneficiaries } =
+      data
+    const res = await createCampaign(
+      window.ethereum,
+      name,
+      description,
+      format(dueDate, "PPP"),
+      paymentType,
+      convertToNumber(adminFee),
+      [beneficiaries]
+    )
+
+    if (res?.hash?.length > 0) {
+      toast({
+        description: "Your new Campaign has been created!.",
+      })
+      refetch()
+      setOpen(false)
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      })
     }
-  )
-
-  const { isLoading } = mutation
-
-  const onSubmit = (data: any) => {
-    mutation.mutate(data)
   }
 
   return (

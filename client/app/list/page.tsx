@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/table"
 import Loading from "@/components/Loading"
 
-import { formatCharityData } from "../dashboard/campaigns/page"
+import { formatCharityData } from "../dashboard/[orgID]/page"
 
 const TableDemo = () => {
   const getData = async () => {
