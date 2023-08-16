@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { ethers } from "ethers"
+import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { useQuery } from "react-query"
 import { z } from "zod"
@@ -40,7 +41,7 @@ const orgSchema = z.object({
 })
 
 export function Tab() {
-  const [wallet, setWallet] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
   const { register: registerDonor, handleSubmit: handleDonorSubmit } = useForm({
@@ -52,6 +53,7 @@ export function Tab() {
   })
 
   const handleCampaignRegister = async (name: string, desc: string) => {
+    setIsLoading(true)
     const res = await registerAsCharityOrg(window.ethereum, name, desc)
 
     if (res?.hash?.length > 0) {
@@ -63,9 +65,11 @@ export function Tab() {
         description: "There was a problem with your request.",
       })
     }
+    setIsLoading(false)
   }
 
   const handleDonorRegister = async (name: string) => {
+    setIsLoading(true)
     const res = await registerAsDonor(window.ethereum, name)
 
     if (res?.hash?.length > 0) {
@@ -77,34 +81,8 @@ export function Tab() {
         description: "There was a problem with your request.",
       })
     }
+    setIsLoading(false)
   }
-
-  // const handleConnectDonorWallet = async () => {
-  //   try {
-  //     if (!window.ethereum) {
-  //       throw new Error("Ethereum provider not detected")
-  //     }
-
-  //     await requestAccount()
-
-  //     if (window.ethereum.selectedAddress) {
-  //       // Metamask is already connected, proceed with the redirection
-  //       router.push("/list")
-  //       return
-  //     }
-
-  //     // Create a Web3Provider instance
-  //     const provider = new ethers.providers.Web3Provider(window.ethereum)
-  //     console.log("provider:", provider)
-  //     const signer = provider.getSigner()
-  //     const address = await signer.getAddress()
-
-  //     console.log("signer: ", signer)
-  //     console.log("address: ", address)
-  //   } catch (error) {
-  //     console.error("Error connecting wallet:", error)
-  //   }
-  // }
 
   const submitDonor = (data: any) => {
     console.log(data)
@@ -144,9 +122,16 @@ export function Tab() {
             </CardContent>
             <CardFooter className="w-full flex justify-between items-center">
               <div className="w-full border">
-                <Button className="w-full" type="submit">
-                  Connect your wallet
-                </Button>
+                {isLoading ? (
+                  <Button disabled className="w-full">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </Button>
+                ) : (
+                  <Button className="w-full" type="submit">
+                    Connect your wallet
+                  </Button>
+                )}
               </div>
             </CardFooter>
           </form>
@@ -169,9 +154,16 @@ export function Tab() {
             </CardContent>
             <CardFooter className="w-full flex justify-between items-center">
               <div className="w-full border">
-                <Button className="w-full" type="submit">
-                  Connect your wallet
-                </Button>
+                {isLoading ? (
+                  <Button disabled className="w-full">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </Button>
+                ) : (
+                  <Button className="w-full" type="submit">
+                    Connect your wallet
+                  </Button>
+                )}
               </div>
             </CardFooter>
           </form>

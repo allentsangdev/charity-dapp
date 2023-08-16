@@ -40,121 +40,121 @@ const TableDemo = () => {
 
   return (
     <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <div className="border p-4 rounded-lg w-full mt-10 mb-40">
-          {!isLoading && !campList ? (
-            <div className="w-full flex justify-center items-center">
-              There is no Campaign to show for now!
-            </div>
-          ) : (
-            <Table className="w-full">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Due Date</TableHead>
-                  <TableHead>Admin Fee</TableHead>
-                </TableRow>
-              </TableHeader>
+      <div className="border p-4 rounded-lg w-full mt-10 mb-40">
+        {!isLoading && !campList ? (
+          <div className="w-full flex justify-center items-center">
+            There is no Campaign to show for now!
+          </div>
+        ) : (
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>Due Date</TableHead>
+                <TableHead>Admin Fee</TableHead>
+                <TableHead>Raised Amount</TableHead>
+              </TableRow>
+            </TableHeader>
 
-              <TableBody>
-                {!isLoading ? (
-                  campList?.map((camp: any, index: number) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium">
-                        {camp?.name}
-                      </TableCell>
-                      <TableCell>{camp?.desc}</TableCell>
-                      <TableCell>{camp?.dueDate}</TableCell>
-                      <TableCell>{camp?.adminFee}</TableCell>
-                      <TableCell className="text-right">
-                        <MoreInfoCampaginDrawer {...{ camp, index }}>
-                          <Button>More info</Button>
-                        </MoreInfoCampaginDrawer>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <>
-                    <TableRow>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-10 w-[200px]" />
-                      </TableCell>
-                    </TableRow>
-                  </>
-                )}
-              </TableBody>
-            </Table>
-          )}
-        </div>
-      )}
+            <TableBody>
+              {!isLoading ? (
+                campList?.map((camp: any, index: number) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-bold text-base">
+                      {camp?.name}
+                    </TableCell>
+                    <TableCell className="truncate max-w-xs">
+                      {camp?.desc}
+                    </TableCell>
+                    <TableCell>{camp?.dueDate}</TableCell>
+                    <TableCell>{camp?.adminFee}</TableCell>
+                    <TableCell>{camp?.raisedAmount}</TableCell>
+                    <TableCell className="text-right">
+                      <MoreInfoCampaginDrawer {...{ camp, index }}>
+                        <Button>More info</Button>
+                      </MoreInfoCampaginDrawer>
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                <>
+                  <TableRow>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-10 w-[200px]" />
+                    </TableCell>
+                  </TableRow>
+                </>
+              )}
+            </TableBody>
+          </Table>
+        )}
+      </div>
     </>
   )
 }

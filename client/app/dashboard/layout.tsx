@@ -9,7 +9,7 @@ import { SidebarNav } from "@/components/dashboard/Sidebar"
 const sidebarNavItems = [
   {
     title: "Campaigns",
-    href: "/dashboard/campaigns",
+    href: "/dashboard/",
   },
   {
     title: "Log out",
@@ -46,11 +46,11 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
         </div>
         <Separator className="my-1" />
         <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-          <aside className="-mx-4 lg:w-1/5">
+          <aside className="-mx-4 lg:w-[11%]">
             <SidebarNav items={sidebarNavItems} />
           </aside>
           {/* Make the children part scrollable */}
-          <div className="flex w-full lg:w-4/5">
+          <div className="flex w-full lg:w-[90%]">
             <div className="flex-1 scrollable-container">{children}</div>
           </div>
         </div>

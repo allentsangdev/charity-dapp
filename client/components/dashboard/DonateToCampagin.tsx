@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+import { donate } from "@/controller/controller"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { format } from "date-fns"
@@ -48,54 +50,34 @@ function convertToNumber(amountString: string) {
   return amountNumber
 }
 
-const DonateToCampagin = ({ open, setOpen, refetch, camp, index }: any) => {
+const DonateToCampagin = ({ open, setOpen, camp, index }: any) => {
   const form = useForm()
   const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const mutation = useMutation(
-    (data: any) => {
-      const {
-        name,
-        description,
-        dueDate,
-        paymentType,
-        adminFee,
-        beneficiaries,
-      } = data
-      return axios.post(
-        "https://charity-dapp-api.onrender.com/create-campaign",
-        {
-          _campaignName: name,
-          _campaignDesc: description,
-          _dueDate: format(dueDate, "PPP"),
-          _acceptedPaymentMethod: paymentType,
-          _adminFee: convertToNumber(adminFee),
-          _beneficiaries: [beneficiaries],
-        }
-      )
-    },
-    {
-      onError: (error: any) => {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
-        })
-      },
-      onSuccess: (data: any) => {
-        toast({
-          description: "Your new Campaign has been created!.",
-        })
-        refetch()
-        setOpen(false)
-      },
+  const onSubmit = async (data: any) => {
+    const { amount } = data
+    setIsLoading(true)
+    const res = await donate(
+      window.ethereum,
+      camp?.id,
+      convertToNumber(amount).toString()
+    )
+
+    if (res?.hash?.length > 0) {
+      toast({
+        description: "Your new Campaign has been created!.",
+      })
+
+      setOpen(false)
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      })
     }
-  )
-
-  const { isLoading } = mutation
-
-  const onSubmit = (data: any) => {
-    mutation.mutate(data)
+    setIsLoading(false)
   }
 
   return (

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { createCampaign } from "@/controller/controller"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
@@ -51,6 +52,7 @@ function convertToNumber(amountString: string) {
 }
 
 const AddCampaginForm = ({ open, setOpen, refetch, walletAddress }: any) => {
+  const router = useRouter()
   const form = useForm()
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
@@ -98,9 +100,10 @@ const AddCampaginForm = ({ open, setOpen, refetch, walletAddress }: any) => {
   // const { isLoading } = mutation
 
   const onSubmit = async (data: any) => {
-    // mutation.mutate(data)
+    setIsLoading(true)
     const { name, description, dueDate, paymentType, adminFee, beneficiaries } =
       data
+
     const res = await createCampaign(
       window.ethereum,
       name,
@@ -115,8 +118,8 @@ const AddCampaginForm = ({ open, setOpen, refetch, walletAddress }: any) => {
       toast({
         description: "Your new Campaign has been created!.",
       })
-      refetch()
       setOpen(false)
+      router.refresh()
     } else {
       toast({
         variant: "destructive",
@@ -124,6 +127,7 @@ const AddCampaginForm = ({ open, setOpen, refetch, walletAddress }: any) => {
         description: "There was a problem with your request.",
       })
     }
+    setIsLoading(false)
   }
 
   return (
@@ -161,37 +165,29 @@ const AddCampaginForm = ({ open, setOpen, refetch, walletAddress }: any) => {
           <div className="w-1/2">
             <FormField
               control={form.control}
-              name="dueDate"
+              name="adminFee"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Due Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[190px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                      />
-                    </PopoverContent>
-                  </Popover>
+                <FormItem>
+                  <FormLabel>Admin Fee %</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-[90px]">
+                        <SelectValue placeholder="%" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="0">0%</SelectItem>
+                      <SelectItem value="5">5%</SelectItem>
+                      <SelectItem value="10">10%</SelectItem>
+                      <SelectItem value="15">15%</SelectItem>
+                      <SelectItem value="20">20%</SelectItem>
+                      <SelectItem value="25">25%</SelectItem>
+                      <SelectItem value="30">30%</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormItem>
               )}
             />
@@ -224,20 +220,37 @@ const AddCampaginForm = ({ open, setOpen, refetch, walletAddress }: any) => {
 
         <FormField
           control={form.control}
-          name="adminFee"
+          name="dueDate"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Admin Fee</FormLabel>
-              <FormControl>
-                <NumericFormat
-                  {...field}
-                  customInput={Input}
-                  thousandSeparator
-                  allowNegative={false}
-                  prefix="$"
-                  placeholder="$"
-                />
-              </FormControl>
+            <FormItem className="flex flex-col">
+              <FormLabel>Due Date</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "w-full pl-3 text-left font-normal",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                  />
+                </PopoverContent>
+              </Popover>
             </FormItem>
           )}
         />
