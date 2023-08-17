@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { createCampaign } from "@/controller/controller"
+import convertToNumber from "@/func/convertToNumbers"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { format } from "date-fns"
@@ -40,16 +41,6 @@ import {
   SelectValue,
 } from "../ui/select"
 import { useToast } from "../ui/use-toast"
-
-function convertToNumber(amountString: string) {
-  // Remove all non-numeric characters using regular expression
-  const numericString = amountString.replace(/[^\d.-]/g, "")
-
-  // Convert the numeric string to a number
-  const amountNumber = parseFloat(numericString)
-
-  return amountNumber
-}
 
 const AddCampaginForm = ({ open, setOpen, refetch, walletAddress }: any) => {
   const router = useRouter()

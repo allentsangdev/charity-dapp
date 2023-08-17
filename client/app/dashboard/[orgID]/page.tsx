@@ -1,9 +1,12 @@
 "use client"
 
+import { useState } from "react"
+import { releaseFund } from "@/controller/controller"
+import convertToNumber from "@/func/convertToNumbers"
 import { formatCharityData } from "@/func/formatCharityData"
 import thousandSeparator from "@/func/thousandSep"
 import axios from "axios"
-import { Plus } from "lucide-react"
+import { Loader2, Plus } from "lucide-react"
 import { useMutation, useQuery } from "react-query"
 import Web3 from "web3"
 
@@ -23,6 +26,7 @@ import {
 import { toast } from "@/components/ui/use-toast"
 
 export default function SettingsAccountPage({ params }: any) {
+  const [isReleaseLoading, setIsReleaseLoading] = useState(false)
   const walletAddress = params?.orgID
   const getData = async () => {
     const response = await axios.get(
@@ -36,28 +40,27 @@ export default function SettingsAccountPage({ params }: any) {
   const formattedCharityData = formatCharityData(data, isLoading)
   const campList = formattedCharityData
 
-  const mutation = useMutation(
-    (id: any) => {
-      return axios.post("https://charity-dapp-api.onrender.com/release-fund", {
-        _campaignId: String(id),
+  const handleReleaseFund = async (index: number) => {
+    setIsReleaseLoading(true)
+
+    const res = await releaseFund(window.ethereum, index)
+
+    if (res?.hash?.length > 0) {
+      toast({
+        description: "Your new Campaign has been created!.",
       })
-    },
-    {
-      onError: (error: any) => {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: "There was a problem with your request.",
-        })
-      },
-      onSuccess: (data: any) => {
-        toast({
-          description: "The fund is now released!",
-        })
-        refetch()
-      },
+      setTimeout(() => {
+        window.location.reload()
+      }, 1500)
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      })
     }
-  )
+    setIsReleaseLoading(false)
+  }
 
   return (
     <div className="space-y-5 w-full">
@@ -108,7 +111,12 @@ export default function SettingsAccountPage({ params }: any) {
                   <TableCell>{camp?.adminFee}</TableCell>
                   <TableCell>{camp?.raisedAmount}</TableCell>
                   <TableCell>
-                    <Button onClick={() => mutation.mutate(index)}>
+                    <Button
+                      onClick={() => handleReleaseFund(index)}
+                      disabled={
+                        convertToNumber(camp.raisedAmount) > 0 ? false : true
+                      }
+                    >
                       Withdraw
                     </Button>
                   </TableCell>
