@@ -96,4 +96,17 @@ async function donate(eth: any, _campaignId: number, _etherValue: string) {
   }
 }
 
-export { registerAsCharityOrg, registerAsDonor, createCampaign, donate }
+// release fund from campaing
+// pass in window.ethereum to eth
+async function releaseFund(eth: any, _campaignId: number) {
+  try {
+    const charityContractInstance = await connectNode(eth)
+    const txReceipt = await charityContractInstance.releaseFund(_campaignId)
+    console.log(txReceipt)
+    return txReceipt
+  } catch (error: any) {
+    return error.message
+  }
+}
+
+export { registerAsCharityOrg, registerAsDonor, createCampaign, donate, releaseFund }
