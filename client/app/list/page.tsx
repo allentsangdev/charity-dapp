@@ -61,7 +61,6 @@ const TableDemo = () => {
         }
       })
     : null
-  console.log(orgList)
 
   return (
     <>
@@ -70,9 +69,10 @@ const TableDemo = () => {
           defaultValue="campaigns"
           className="relative mt-10 mx-auto flex flex-col w-[90%]"
         >
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="organizations">Organizations</TabsTrigger>
             <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
+            <TabsTrigger value="txList">Transaction History</TabsTrigger>
           </TabsList>
 
           <TabsContent value="campaigns" className="w-full">

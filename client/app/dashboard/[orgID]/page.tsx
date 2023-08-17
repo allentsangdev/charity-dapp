@@ -48,7 +48,7 @@ export default function SettingsAccountPage({ params }: any) {
 
     if (res?.hash?.length > 0) {
       toast({
-        description: "Your new Campaign has been created!.",
+        description: "The fund has been released.",
       })
       setTimeout(() => {
         window.location.reload()
