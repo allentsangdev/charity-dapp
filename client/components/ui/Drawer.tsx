@@ -66,7 +66,12 @@ export function AddCampaginDrawer({ children, refetch, walletAddress }: any) {
   )
 }
 
-export function MoreInfoCampaginDrawer({ children, camp, index }: any) {
+export function MoreInfoCampaginDrawer({
+  children,
+  camp,
+  index,
+  refetch,
+}: any) {
   const [open, setOpen] = useState(false)
   console.log(camp)
 
@@ -124,7 +129,9 @@ export function MoreInfoCampaginDrawer({ children, camp, index }: any) {
                   <CardDescription />
                   <CardDescription />
                   <CardDescription />
-                  <DonateToCampagin {...{ open, setOpen, camp, index }} />
+                  <DonateToCampagin
+                    {...{ open, setOpen, camp, index, refetch }}
+                  />
                 </CardHeader>
               </Card>
             </div>
