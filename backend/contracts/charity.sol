@@ -10,7 +10,7 @@ contract Charity {
 4. Fund distrubuted to beneficiaries equally
 5. Have not implement the credit system
 */
-// ----------------------------------- Data Structures ----------------------------------- //
+// ----------------------------------- Events ----------------------------------- //
 
     event CharityOrgRegistered(address indexed charityAddress, string charityName, uint charityId);
     event DonorRegistered(address indexed donorAddress, string donorName, uint donorId);
@@ -18,6 +18,8 @@ contract Charity {
     event DonationMade(address indexed donor, uint campaignId, uint256 amount);
     event FundReleased(uint campaignId);
     event TransactionLogged(address indexed from, uint campaignId, uint256 amount);
+
+// ----------------------------------- Data Structures ----------------------------------- //
 
     enum ReputationLevel {Micro, Small, Medium, Large, Major}
 
