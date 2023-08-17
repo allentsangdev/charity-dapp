@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useState } from "react"
 import Link from "next/link"
+import { formatCharityData } from "@/func/formatCharityData"
 import thousandSeparator from "@/func/thousandSep"
 import timeConvert from "@/func/timeConvert"
 import listState from "@/store/listState"
@@ -23,8 +24,6 @@ import {
 } from "@/components/ui/table"
 import Loading from "@/components/Loading"
 
-import { formatCharityData } from "../dashboard/[orgID]/page"
-
 const TableDemo = () => {
   const getData = async () => {
     const response = await axios.get(
@@ -33,7 +32,7 @@ const TableDemo = () => {
     return response.data
   }
 
-  const { data, isLoading } = useQuery("list", getData)
+  const { data, isLoading, refetch } = useQuery("list", getData)
 
   const formattedCharityData = formatCharityData(data, isLoading)
   const campList = formattedCharityData
@@ -71,7 +70,7 @@ const TableDemo = () => {
                     <TableCell>{camp?.adminFee}</TableCell>
                     <TableCell>{camp?.raisedAmount}</TableCell>
                     <TableCell className="text-right">
-                      <MoreInfoCampaginDrawer {...{ camp, index }}>
+                      <MoreInfoCampaginDrawer {...{ camp, index, refetch }}>
                         <Button>More info</Button>
                       </MoreInfoCampaginDrawer>
                     </TableCell>

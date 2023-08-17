@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { donate } from "@/controller/controller"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
@@ -50,7 +51,8 @@ function convertToNumber(amountString: string) {
   return amountNumber
 }
 
-const DonateToCampagin = ({ open, setOpen, camp, index }: any) => {
+const DonateToCampagin = ({ open, setOpen, camp, index, refetch }: any) => {
+  const router = useRouter()
   const form = useForm()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
@@ -58,18 +60,19 @@ const DonateToCampagin = ({ open, setOpen, camp, index }: any) => {
   const onSubmit = async (data: any) => {
     const { amount } = data
     setIsLoading(true)
-    const res = await donate(
-      window.ethereum,
-      camp?.id,
-      convertToNumber(amount).toString()
-    )
+    const usdToAvax = (convertToNumber(amount) / 12).toFixed(2).toString()
+
+    const res = await donate(window.ethereum, camp?.id, usdToAvax)
 
     if (res?.hash?.length > 0) {
       toast({
         description: "Your new Campaign has been created!.",
       })
-
       setOpen(false)
+      setTimeout(() => {
+        refetch()
+        window.location.reload()
+      }, 2000)
     } else {
       toast({
         variant: "destructive",
@@ -95,7 +98,7 @@ const DonateToCampagin = ({ open, setOpen, camp, index }: any) => {
                   customInput={Input}
                   thousandSeparator
                   allowNegative={false}
-                  prefix="$"
+                  prefix="$ "
                   placeholder="$"
                 />
               </FormControl>

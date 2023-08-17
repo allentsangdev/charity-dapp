@@ -119,7 +119,10 @@ const AddCampaginForm = ({ open, setOpen, refetch, walletAddress }: any) => {
         description: "Your new Campaign has been created!.",
       })
       setOpen(false)
-      router.refresh()
+      setTimeout(() => {
+        refetch()
+        window.location.reload()
+      }, 1500)
     } else {
       toast({
         variant: "destructive",
