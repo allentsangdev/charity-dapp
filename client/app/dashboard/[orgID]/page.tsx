@@ -24,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { toast } from "@/components/ui/use-toast"
+import TableLoading from "@/components/TableLoading"
 
 export default function SettingsAccountPage({ params }: any) {
   const [isReleaseLoading, setIsReleaseLoading] = useState(false)
@@ -123,78 +124,7 @@ export default function SettingsAccountPage({ params }: any) {
                 </TableRow>
               ))
             ) : (
-              <>
-                <TableRow>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-10 w-[200px]" />
-                  </TableCell>
-                </TableRow>
-              </>
+              <TableLoading />
             )}
           </TableBody>
         </Table>

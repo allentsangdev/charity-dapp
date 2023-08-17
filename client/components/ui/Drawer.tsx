@@ -141,3 +141,46 @@ export function MoreInfoCampaginDrawer({
     </Drawer.Root>
   )
 }
+
+export function MoreInfoOrgDrawer({ children, org, index, refetch }: any) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <Drawer.Root dismissible={false} open={open}>
+      <Drawer.Trigger asChild onClick={() => setOpen(true)}>
+        {children}
+      </Drawer.Trigger>
+      <Drawer.Portal>
+        <Drawer.Overlay className="fixed inset-0 bg-black/40" />
+        <Drawer.Content className="mx-auto bg-zinc-100 flex flex-col w-2/5 rounded-t-[10px] h-[86%] mt-24 fixed bottom-0 left-0 right-0">
+          <div className="p-4 bg-white rounded-t-[10px] flex-1 border border-solid">
+            {/* <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 mb-8" /> */}
+            <div
+              className="ml-[600px] w-8 h-8 flex-shrink-0 rounded-full mb-8 flex justify-center items-center border-[#0F172A] border-2 cursor-pointer hover:opacity-60"
+              onClick={() => setOpen(false)}
+            >
+              <p className="font-bold text-[#0F172A]">
+                <X />
+              </p>
+            </div>
+            <div className="max-w-lg mx-auto">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="w-full h-12 flex justify-center">
+                    {/* {data?.CampaignName} */}
+                    <div className="w-full flex justify-center items-center font-bold text-3xl">
+                      {org?.name}
+                    </div>
+                  </CardTitle>
+                  <CardContent>
+                    <div className="w-full mt-10">{org?.desc}</div>
+                  </CardContent>
+                </CardHeader>
+              </Card>
+            </div>
+          </div>
+        </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
+  )
+}
