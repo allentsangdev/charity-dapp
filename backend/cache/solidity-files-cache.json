@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/tsanghosang/Desktop/charity-dapp/backend/contracts/charity.sol": {
-      "lastModificationDate": 1691861861653,
-      "contentHash": "02e7d8f05fce275c9e39619516fbcf10",
+      "lastModificationDate": 1692250146900,
+      "contentHash": "ab93e4b3784a03b08555ea547053096c",
       "sourceName": "contracts/charity.sol",
       "solcConfig": {
         "version": "0.8.6",
