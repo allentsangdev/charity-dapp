@@ -33,7 +33,7 @@ async function registerAsCharityOrg(
       _charityName,
       _charityDesc
     )
-    console.log(txReceipt)
+
     return txReceipt
   } catch (error: any) {
     return error.message
@@ -46,7 +46,7 @@ async function registerAsDonor(eth: any, _donorName: any) {
   try {
     const charityContractInstance = await connectNode(eth)
     const txReceipt = await charityContractInstance.registerAsDonor(_donorName)
-    console.log(txReceipt)
+
     return txReceipt
   } catch (error: any) {
     return error.message
@@ -74,7 +74,7 @@ async function createCampaign(
       _adminFee,
       _beneficiaries
     )
-    console.log(txReceipt)
+
     return txReceipt
   } catch (error: any) {
     return error.message
@@ -86,10 +86,10 @@ async function createCampaign(
 async function donate(eth: any, _campaignId: number, _etherValue: string) {
   try {
     const charityContractInstance = await connectNode(eth)
-    const txReceipt = await charityContractInstance.donate(
-      _campaignId, {value : ethers.utils.parseEther(_etherValue)}
-    )
-    console.log(txReceipt)
+    const txReceipt = await charityContractInstance.donate(_campaignId, {
+      value: ethers.utils.parseEther(_etherValue),
+    })
+
     return txReceipt
   } catch (error: any) {
     return error.message
@@ -102,11 +102,30 @@ async function releaseFund(eth: any, _campaignId: number) {
   try {
     const charityContractInstance = await connectNode(eth)
     const txReceipt = await charityContractInstance.releaseFund(_campaignId)
-    console.log(txReceipt)
+
     return txReceipt
   } catch (error: any) {
     return error.message
   }
 }
 
-export { registerAsCharityOrg, registerAsDonor, createCampaign, donate, releaseFund }
+async function getTransaction(eth: any, _campaignId: number) {
+  try {
+    const charityContractInstance = await connectNode(eth)
+    const txReceipt = await charityContractInstance.getTransactionHistory(
+      _campaignId
+    )
+    return txReceipt
+  } catch (error: any) {
+    return error.message
+  }
+}
+
+export {
+  registerAsCharityOrg,
+  registerAsDonor,
+  createCampaign,
+  donate,
+  releaseFund,
+  getTransaction,
+}
